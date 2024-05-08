@@ -69,5 +69,9 @@ module.exports = {
     deleteMachine,
     machineById,
     loginService,
-    verificationService
+    verificationService,
+    userById,
+    createUser,
+    deleteUser,
+    updateUser
 };

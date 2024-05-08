@@ -29,6 +29,6 @@ app.delete("/machines", routes.deleteMachine);
 //User Routes
 
 app.get("/users", routes.userById);
-app.post("/users", auth, routes.createUser);
+app.post("/users", routes.createUser);
 app.put("/users", routes.updateUser);
 app.delete("/users", routes.deleteUser);
