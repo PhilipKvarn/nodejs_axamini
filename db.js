@@ -67,6 +67,60 @@ const pool = new Pool({
 
 //TASKS
 
+async function getTasks(){
+    //console.log("into users")
+    const result = await pool.query('SELECT * FROM task');
+    value = result.rows
+    return(value);
+}
+
+async function getTaskById(req,res){
+    
+    const id = parseInt(req.body.id)
+    if(isNaN(id)){
+        return "is: NaN"
+    }
+    const result = await pool.query('SELECT * FROM task WHERE id = $1', [id]);
+    
+    return result.rows;
+}
+
+async function insertTask(req,res){
+    //const {name, status, urgency} = request.body
+    console.log("INSERT")
+    const {name, next_execution_date, interval_days, execution_time, machine_id, description} = req.body
+    pool.query('INSERT INTO task (name, next_execution_date, interval_days, execution_time, machine_id, description) VALUES ($1, $2, $3, $4, $5, $6)', [name, next_execution_date, interval_days, execution_time, machine_id,description], (error, results)=>{
+        if(error){
+            return error
+        }
+        return "OK"
+    })
+}
+
+async function updateTask(req,res){
+    //const {name, status, urgency} = request.body
+    console.log("UPDATE")
+    const id = req.body.id;
+    const {name, next_execution_date, interval_days, execution_time, machine_id, description} = req.body
+    pool.query('UPDATE task SET name = $1, next_execution_date = $2, interval_days=$3, execution_time = $4, machine_id=$5, description=$6 WHERE id = $7', [name, next_execution_date, interval_days, execution_time, machine_id,description, id], (error, results)=>{
+        if(error){
+            return error
+        }
+        return "OK"
+    })
+}
+
+async function deleteTask(req,res){
+    console.log("DELETE")
+    const id = req.body.id
+    pool.query('DELETE FROM task WHERE id = $1', [id], (error,results)=>{
+        if(error){
+            return error;
+        }
+        return "OK";
+    })
+}
+
 //USERS
 
 
@@ -143,6 +197,11 @@ module.exports = {
     deleteMachine,
     updateMachine,
     getMachineById,
+    getTasks,
+    getTaskById,
+    insertTask,
+    updateTask,
+    deleteTask,
     getUsers,
     getUserById,
     getUserByMail,

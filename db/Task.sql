@@ -3,5 +3,7 @@ CREATE TABLE Task (
     name VARCHAR(255),
     next_execution_date DATE,
     interval_days INT,
-    execution_time TIME
+    execution_time TIME,
+    machine_id INT,
+    description TEXT
 );

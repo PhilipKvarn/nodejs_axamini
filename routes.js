@@ -19,7 +19,7 @@ async function verificationService(req,res){
 
 
 
-
+// Machine Routes
 async function machineById(req,res){
     value = await db.getMachineById(req,res);
     return res.send(value);
@@ -40,7 +40,29 @@ async function updateMachine(req,res){
     res.send(response);
 }
 
+// Task Routes
 
+async function taskById(req,res){
+    value = await db.getTaskById(req,res);
+    return res.send(value);
+}
+
+async function createTask(req,res){
+    let response = await db.insertTask(req,res);
+    res.send(response);
+}
+
+async function deleteTask(req,res){
+    let response = await db.deleteTask(req,res);
+    res.send(response);
+}
+
+async function updateTask(req,res){
+    let response = await db.updateTask(req,res);
+    res.send(response);
+}
+
+// User Routes
 async function userById(req,res){
     value = await db.getUserById(req,res);
     return res.send(value);
@@ -68,6 +90,10 @@ module.exports = {
     updateMachine,
     deleteMachine,
     machineById,
+    taskById,
+    createTask,
+    deleteTask,
+    updateTask,
     loginService,
     verificationService,
     userById,
