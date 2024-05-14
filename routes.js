@@ -20,6 +20,11 @@ async function verificationService(req,res){
 
 
 // Machine Routes
+async function allMachines(req,res){
+    value = await db.getMachines(req,res);
+    return res.send(value);
+}
+
 async function machineById(req,res){
     value = await db.getMachineById(req,res);
     return res.send(value);
@@ -86,6 +91,7 @@ async function updateUser(req,res){
 
 module.exports = {
     index,
+    allMachines,
     createMachine,
     updateMachine,
     deleteMachine,
