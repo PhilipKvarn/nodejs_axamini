@@ -1,7 +1,7 @@
 const db = require("./db");
 const auth = require("./auth");
 
-async function index(req,res){
+async function allUsers(req,res){
     value = await db.getUsers();
     console.log(value)
     return res.send(value);
@@ -95,7 +95,6 @@ async function updateUser(req,res){
 
 
 module.exports = {
-    index,
     allMachines,
     createMachine,
     updateMachine,
@@ -108,6 +107,7 @@ module.exports = {
     updateTask,
     loginService,
     verificationService,
+    allUsers,
     userById,
     createUser,
     deleteUser,
