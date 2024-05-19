@@ -11,11 +11,15 @@ const pool = new Pool({
 
 // MACHINES
 
-    async function getMachines(){
+    async function getMachines(req,res){
         //console.log("into users")
-        const result = await pool.query('SELECT * FROM machines');
-        value = result.rows
-        return(value);
+        try {
+            const result = await pool.query('SELECT * FROM machines');
+            value = result.rows
+            return(value);
+        } catch (error) {
+            return res.status = 500
+        }
     }
     
     async function getMachineById(req,res){
@@ -31,9 +35,9 @@ const pool = new Pool({
     
     async function insertMachine(req,res){
         //const {name, status, urgency} = request.body
-        console.log("INSERT")
-        const {name, status, urgency} = req.body
-        pool.query('INSERT INTO machines (name, status, urgency) VALUES ($1, $2, $3)', [name, status, urgency], (error, results)=>{
+        console.log("INSERT MACHINE")
+        const {name, status, urgency, mechanic_id} = req.body
+        pool.query('INSERT INTO machines (name, status, urgency, mechanic_id) VALUES ($1, $2, $3, $4)', [name, status, urgency, mechanic_id], (error, results)=>{
             if(error){
                 return error
             }
@@ -43,10 +47,11 @@ const pool = new Pool({
     
     async function updateMachine(req,res){
         //const {name, status, urgency} = request.body
-        console.log("UPDATE")
+        console.log("UPDATE MACHINE")
+        console.log(req.body)
         const id = req.body.id;
-        const {name, status, urgency} = req.body
-        pool.query('UPDATE machines SET name = $1, status = $2, urgency = $3 WHERE id = $4', [name, status, urgency, id], (error, results)=>{
+        const {name, status, urgency, mechanic_id} = req.body
+        pool.query('UPDATE machines SET name = $1, status = $2, urgency = $3, mechanic_id = $4 WHERE id = $5', [name, status, urgency, mechanic_id, id], (error, results)=>{
             if(error){
                 return error
             }
@@ -55,7 +60,7 @@ const pool = new Pool({
     }
     
     async function deleteMachine(req,res){
-        console.log("DELETE")
+        console.log("DELETE MACHINE")
         const id = req.body.id
         pool.query('DELETE FROM machines WHERE id = $1', [id], (error,results)=>{
             if(error){
@@ -87,7 +92,7 @@ async function getTaskById(req,res){
 
 async function insertTask(req,res){
     //const {name, status, urgency} = request.body
-    console.log("INSERT")
+    console.log("INSERT TASK")
     const {name, next_execution_date, interval_days, execution_time, machine_id, description} = req.body
     pool.query('INSERT INTO task (name, next_execution_date, interval_days, execution_time, machine_id, description) VALUES ($1, $2, $3, $4, $5, $6)', [name, next_execution_date, interval_days, execution_time, machine_id,description], (error, results)=>{
         if(error){
@@ -99,11 +104,13 @@ async function insertTask(req,res){
 
 async function updateTask(req,res){
     //const {name, status, urgency} = request.body
-    console.log("UPDATE")
+    console.log("UPDATE TASK")
+    console.log(req.body)
     const id = req.body.id;
     const {name, next_execution_date, interval_days, execution_time, machine_id, description} = req.body
     pool.query('UPDATE task SET name = $1, next_execution_date = $2, interval_days=$3, execution_time = $4, machine_id=$5, description=$6 WHERE id = $7', [name, next_execution_date, interval_days, execution_time, machine_id,description, id], (error, results)=>{
         if(error){
+            console.log(error)
             return error
         }
         return "OK"
@@ -111,7 +118,7 @@ async function updateTask(req,res){
 }
 
 async function deleteTask(req,res){
-    console.log("DELETE")
+    console.log("DELETE TASK")
     const id = req.body.id
     pool.query('DELETE FROM task WHERE id = $1', [id], (error,results)=>{
         if(error){
@@ -167,7 +174,7 @@ async function createUser(req,res){
 
 async function updateUser(req,res){
     //const {name, status, urgency} = request.body
-    console.log("UPDATE")
+    console.log("UPDATE USER")
     const id = req.body.id;
     const {name, status, urgency} = req.body
     pool.query('UPDATE users SET name = $1, telephone_number = $2, email = $3, role = $4, company_name = $5 WHERE id = $6', [name, telephone_number, email, role, company_name, id], (error)=>{
@@ -179,7 +186,7 @@ async function updateUser(req,res){
 }
 
 async function deleteUser(req,res){
-    console.log("DELETE")
+    console.log("DELETE USER")
     const id = req.body.id
     pool.query('DELETE FROM machines WHERE id = $1', [id], (error,results)=>{
         if(error){

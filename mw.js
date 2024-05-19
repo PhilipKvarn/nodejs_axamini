@@ -7,7 +7,7 @@ module.exports = {auth}
 
 async function auth(req,res,next){
     let {token} = req.body;
-
+    
     try{
         token = await jwt.verify(token, 'secret');
         let user = {email: token.email, role:token.role}
@@ -15,7 +15,10 @@ async function auth(req,res,next){
         next();
     } catch (error){
         if(!token){res.send("Not logged in");}
-        else{res.send(error);}
+        else{
+            res.status = 400
+            res.send(error);
+        }
     }
 
 }

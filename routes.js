@@ -47,6 +47,11 @@ async function updateMachine(req,res){
 
 // Task Routes
 
+async function allTasks(req,res){
+    value = await db.getTasks(req,res);
+    return res.send(value);
+}
+
 async function taskById(req,res){
     value = await db.getTaskById(req,res);
     return res.send(value);
@@ -96,6 +101,7 @@ module.exports = {
     updateMachine,
     deleteMachine,
     machineById,
+    allTasks,
     taskById,
     createTask,
     deleteTask,

@@ -29,6 +29,7 @@ app.put("/machine", routes.updateMachine);
 app.delete("/machine", routes.deleteMachine);
 
 //Task Routes
+app.get("/tasks", routes.allTasks)
 app.get("/task", routes.taskById);
 app.post("/task", routes.createTask);
 app.put("/task", routes.updateTask);
