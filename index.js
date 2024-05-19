@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 
-app.get("/", routes.index);
+/* app.get("/", routes.index); */
 
 app.post("/login", routes.loginService)
 app.post("/verify", routes.verificationService)
