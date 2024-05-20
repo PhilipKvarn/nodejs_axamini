@@ -29,22 +29,26 @@ async function login(req, res){
     // Byt secret senare
     let token = await jwt.sign({email, hash},'secret', {expiresIn:120});
     
-    res.cookie("token",token,{
-        maxAge:60000
+    return res.cookie("token",token,{
+        maxAge:240000
     });
-
-    //return res.redirect("/verify");
-    res.json(token);  // för postman
+    //res.json(token);  // för postman
 
 }
 
 async function verify(req, res){
 
     let {code} = req.body;
-
-    console.log(req.cookie);
-
-    let {token} = req.body;
+    console.log("cookie:")
+    console.log(req.cookie)
+    if(req.cookies === undefined){
+        return res.send("no cookie");
+    }
+    
+ 
+    let token = req.cookies.token;
+    console.log("token");
+    console.log(token);
 
     // Verifiera token
     try {
