@@ -51,3 +51,10 @@ app.get("/email", routes.userByMail);
 app.post("/user",isAdmin, routes.createUser);
 app.put("/user",isAdmin, routes.updateUser);
 app.delete("/user",isAdmin, routes.deleteUser);
+
+//Suggestion Routes
+
+app.get("/suggestions", routes.allSuggestions)
+app.post("/suggestion",auth, routes.createSuggestion)
+app.put("/suggestion",auth, routes.updateSuggestion)
+app.delete("/suggestion",auth, routes.deleteSuggestion)

@@ -203,6 +203,46 @@ async function deleteUser(req,res){
 }
 
 
+async function allSuggestions(){
+    const result = await pool.query('SELECT * FROM suggestions');
+    value = result.rows
+    return(value);
+}
+
+async function createSuggestion(req,res){
+    const {name, creator_id, machine_id, description} = req.body
+    pool.query('INSERT INTO suggestions (name, creator_id, machine_id, description) VALUES ($1,$2,$3,$4);', [name, creator_id, machine_id, description], (error)=>{
+        if(error){
+            return error
+        }
+    })
+}
+
+async function updateSuggestion(req,res){
+    //const {name, status, urgency} = request.body
+    console.log("UPDATE SUGGESTION")
+    const id = req.body.id;
+    const {name, creator_id, machine_id, description} = req.body
+    pool.query('UPDATE suggestions SET name = $1, creator_id = $2, machine_id = $3, description = $4 WHERE id = $5', [name, creator_id, machine_id, description, id], (error)=>{
+        if(error){
+            return error
+        }
+    })
+    
+}
+
+async function deleteSuggestion(req,res){
+    console.log("DELETE SUGGESTION")
+    const id = req.body.id
+    pool.query('DELETE FROM suggestions WHERE id = $1', [id], (error,results)=>{
+        if(error){
+            return error;
+        }
+        return "OK";
+    })
+}
+
+
 
 module.exports = {
     getMachines,
@@ -220,5 +260,10 @@ module.exports = {
     getUserByMail,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+
+    allSuggestions,
+    createSuggestion,
+    updateSuggestion,
+    deleteSuggestion
 };

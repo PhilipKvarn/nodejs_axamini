@@ -101,6 +101,24 @@ async function updateUser(req,res){
 }
 
 
+async function allSuggestions(req,res){
+    value = await db.allSuggestions();
+    return res.send(value);
+}
+async function createSuggestion(req,res){
+    let response = await db.createSuggestion(req,res);
+    res.send(response);
+}
+async function updateSuggestion(req,res){
+    let response = await db.updateSuggestion(req,res);
+    res.send(response);
+}
+async function deleteSuggestion(req,res){
+    let response = await db.deleteSuggestion(req,res);
+    res.send(response);
+}
+
+
 module.exports = {
     allMachines,
     createMachine,
@@ -119,5 +137,10 @@ module.exports = {
     userByMail,
     createUser,
     deleteUser,
-    updateUser
+    updateUser,
+
+    allSuggestions,
+    createSuggestion,
+    updateSuggestion,
+    deleteSuggestion
 };
