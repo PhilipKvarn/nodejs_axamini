@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 
 
 const routes = require("./routes");
-const { auth } = require("./mw");
+const { auth, isAdmin } = require("./mw");
 
 const app = express();
 
@@ -25,6 +25,9 @@ app.post("/login", routes.loginService)
 app.post("/verify", routes.verificationService)
 app.post("/loggedin",auth,(req,res)=>{
     res.json({"loggedin":true}).status(200);
+})
+app.post("/admin",isAdmin,(req,res)=>{
+    res.json({"admin":true}).status(200)
 })
 
 //Machine Routes
