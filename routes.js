@@ -1,14 +1,16 @@
 const db = require("./db");
 const auth = require("./auth");
+const cookieParser = require('cookie-parser');
 
 async function allUsers(req,res){
     value = await db.getUsers();
     console.log(value)
-    return res.send(value);
+    return res.send();
 }
 
 async function loginService(req,res){
     value = await auth.login(req,res);
+    
     return res.send();
 }
 

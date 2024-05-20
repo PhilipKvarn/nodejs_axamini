@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const cookieParser = require('cookie-parser');
 const bcrypt = require("bcryptjs");
 const uniqid = require("uniqid");
 const db = require("./db");
@@ -13,7 +14,9 @@ function isAdmin(req,res,next){
 }
 
 async function login(req, res){
-
+    console.log("tried to login:")
+    console.log(req.body)
+    console.log("end to login:")
     value = await db.getUserByMail(req,res);
 
     if(value.length == 0){
@@ -28,10 +31,8 @@ async function login(req, res){
     let hash = await bcrypt.hash(code, 12);
     // Byt secret senare
     let token = await jwt.sign({email, hash},'secret', {expiresIn:120});
-    
-    return res.cookie("token",token,{
-        maxAge:240000
-    });
+    res.cookie('token',token,{httpOnly: true, samesite});
+    return ;
     //res.json(token);  // för postman
 
 }
@@ -40,19 +41,17 @@ async function verify(req, res){
 
     let {code} = req.body;
     console.log("cookie:")
-    console.log(req.cookie)
-    if(req.cookies === undefined){
+    console.log(req.cookies['token'])
+    if(req.cookies.token === undefined){
         return res.send("no cookie");
     }
     
- 
     let token = req.cookies.token;
+
     console.log("token");
     console.log(token);
 
-    // Verifiera token
     try {
-        // Byt secret senare
         let checkedToken = await jwt.verify(token,'secret');
         console.log("checkedToken", checkedToken);
 
@@ -61,12 +60,10 @@ async function verify(req, res){
         let checkPassword = await bcrypt.compare(code, hash);
         console.log("checkPassword", checkPassword);
         if(checkPassword){
-
             let payload = {
                 email:checkedToken.email,
                 role:"pwl-user"
             }
-            // Byt secret senare
             let authToken = await jwt.sign(payload, 'secret',{
                 expiresIn:"3h"
             });
@@ -74,15 +71,13 @@ async function verify(req, res){
               httpOnly:true  
             })
             return res.json(authToken);
-            //return res.redirect("/?loggedIn");
         }
         return res.json({error:"Wrong Code"});
 
     } catch (error) {
-        //console.log("error",error);
         return res.json(error);
     }
-/*     res.json({code, token}); */
+
 
 }
 
