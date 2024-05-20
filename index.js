@@ -45,7 +45,6 @@ app.put("/task",auth, routes.updateTask);
 app.delete("/task",auth, routes.deleteTask);
 
 //User Routes
-
 app.get("/users", routes.allUsers)
 app.get("/user", routes.userById);
 app.get("/email", routes.userByMail);
