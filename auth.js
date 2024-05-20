@@ -31,7 +31,7 @@ async function login(req, res){
     let hash = await bcrypt.hash(code, 12);
     // Byt secret senare
     let token = await jwt.sign({email, hash},'secret', {expiresIn:120});
-    res.cookie('token',token,{httpOnly: true, samesite});
+    res.cookie('token',token,{httpOnly: true});
     return ;
     //res.json(token);  // för postman
 
