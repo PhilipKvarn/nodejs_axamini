@@ -169,7 +169,14 @@ async function getUserByMail(req,res){
 }
 
 async function createUser(req,res){
-    //const {name, status, urgency} = request.body
+    
+    value = await getUserByMail(req,res);
+
+    if(value.length != 0){
+        res.send("User already exists user")
+        return
+    }
+
     const {name, telephone_number, email, role, company_name} = req.body
     pool.query('INSERT INTO users (name, telephone_number, email, role, company_name) VALUES ($1,$2,$3,$4,$5);', [name, telephone_number, email, role, company_name], (error)=>{
         if(error){
@@ -179,7 +186,14 @@ async function createUser(req,res){
 }
 
 async function updateUser(req,res){
-    //const {name, status, urgency} = request.body
+    
+    value = await getUserByMail(req,res);
+
+    if(value.length != 0){
+        res.send("User already exists user").status(400)
+        return
+    }
+
     console.log("UPDATE USER")
     const id = req.body.id;
     const {name, telephone_number, email, role, company_name} = req.body
