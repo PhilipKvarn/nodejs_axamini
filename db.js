@@ -159,8 +159,9 @@ async function getUserById(req,res){
 }
 
 async function getUserByMail(req,res){
-    const mail = req.body.mail;
-    const result = await pool.query('SELECT * FROM users WHERE email = $1', [mail])
+    const email = req.body.email;
+    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email])
+    return result.rows
 }
 
 async function createUser(req,res){

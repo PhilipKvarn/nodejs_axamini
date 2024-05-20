@@ -78,6 +78,11 @@ async function userById(req,res){
     return res.send(value);
 }
 
+async function userByMail(req,res){
+    value = await db.getUserByMail(req,res);
+    return res.send(value)
+}
+
 async function createUser(req,res){
     let response = await db.createUser(req,res);
     res.send(response);
@@ -109,6 +114,7 @@ module.exports = {
     verificationService,
     allUsers,
     userById,
+    userByMail,
     createUser,
     deleteUser,
     updateUser

@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const uniqid = require("uniqid");
+const db = require("./db");
 
 function isAdmin(req,res,next){
     if(req.user && req.user.role == 'admin'){
@@ -12,6 +13,13 @@ function isAdmin(req,res,next){
 }
 
 async function login(req, res){
+
+    value = await db.getUserByMail(req,res);
+
+    if(value.length == 0){
+        res.send("No such user")
+        return
+    }
 
     let email = req.body.email;
     let code = uniqid();

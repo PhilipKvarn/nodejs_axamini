@@ -39,6 +39,7 @@ app.delete("/task", routes.deleteTask);
 
 app.get("/users", routes.allUsers)
 app.get("/user", routes.userById);
+app.get("/email", routes.userByMail);
 app.post("/user", routes.createUser);
 app.put("/user", routes.updateUser);
 app.delete("/user", routes.deleteUser);
