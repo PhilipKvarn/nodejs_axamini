@@ -37,8 +37,10 @@ const pool = new Pool({
         //const {name, status, urgency} = request.body
         console.log("INSERT MACHINE")
         const {name, status, urgency, mechanic_id} = req.body
+        console.log(req.body)
         pool.query('INSERT INTO machines (name, status, urgency, mechanic_id) VALUES ($1, $2, $3, $4)', [name, status, urgency, mechanic_id], (error, results)=>{
             if(error){
+                console.log(error)
                 return error
             }
             return "OK"
@@ -180,7 +182,7 @@ async function updateUser(req,res){
     //const {name, status, urgency} = request.body
     console.log("UPDATE USER")
     const id = req.body.id;
-    const {name, status, urgency} = req.body
+    const {name, telephone_number, email, role, company_name} = req.body
     pool.query('UPDATE users SET name = $1, telephone_number = $2, email = $3, role = $4, company_name = $5 WHERE id = $6', [name, telephone_number, email, role, company_name, id], (error)=>{
         if(error){
             return error
@@ -192,7 +194,7 @@ async function updateUser(req,res){
 async function deleteUser(req,res){
     console.log("DELETE USER")
     const id = req.body.id
-    pool.query('DELETE FROM machines WHERE id = $1', [id], (error,results)=>{
+    pool.query('DELETE FROM users WHERE id = $1', [id], (error,results)=>{
         if(error){
             return error;
         }

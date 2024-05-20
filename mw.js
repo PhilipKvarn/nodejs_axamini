@@ -6,19 +6,16 @@ const {getMachines} = require("./db");
 module.exports = {auth}
 
 async function auth(req,res,next){
-    let {token} = req.body;
+    let authToken = req.cookies['auth-token'];
     
     try{
-        token = await jwt.verify(token, 'secret');
+        token = await jwt.verify(authToken, 'secret');
         let user = {email: token.email, role:token.role}
         req.user = user;
         next();
     } catch (error){
-        if(!token){res.send("Not logged in");}
-        else{
             res.status = 400
-            res.send(error);
-        }
+            res.send("Not logged in");
     }
 
 }

@@ -4,8 +4,8 @@ const cookieParser = require('cookie-parser');
 
 async function allUsers(req,res){
     value = await db.getUsers();
-    console.log(value)
-    return res.send();
+
+    return res.send(value);
 }
 
 async function loginService(req,res){
@@ -96,7 +96,7 @@ async function deleteUser(req,res){
 }
 
 async function updateUser(req,res){
-    let response = await db.updateMachine(req,res);
+    let response = await db.updateUser(req,res);
     res.send(response);
 }
 

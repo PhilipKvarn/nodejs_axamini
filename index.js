@@ -23,27 +23,29 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.post("/login", routes.loginService)
 app.post("/verify", routes.verificationService)
-
+app.post("/loggedin",auth,(req,res)=>{
+    res.json({"loggedin":true}).status(200);
+})
 
 //Machine Routes
 app.get("/machines", routes.allMachines)
 app.get("/machine", routes.machineById);
 app.post("/machine", auth, routes.createMachine);
-app.put("/machine", routes.updateMachine);
-app.delete("/machine", routes.deleteMachine);
+app.put("/machine",auth, routes.updateMachine);
+app.delete("/machine",auth, routes.deleteMachine);
 
 //Task Routes
 app.get("/tasks", routes.allTasks)
 app.get("/task", routes.taskById);
-app.post("/task", routes.createTask);
-app.put("/task", routes.updateTask);
-app.delete("/task", routes.deleteTask);
+app.post("/task",auth, routes.createTask);
+app.put("/task",auth, routes.updateTask);
+app.delete("/task",auth, routes.deleteTask);
 
 //User Routes
 
 app.get("/users", routes.allUsers)
 app.get("/user", routes.userById);
 app.get("/email", routes.userByMail);
-app.post("/user", routes.createUser);
-app.put("/user", routes.updateUser);
-app.delete("/user", routes.deleteUser);
+app.post("/user",auth, routes.createUser);
+app.put("/user",auth, routes.updateUser);
+app.delete("/user",auth, routes.deleteUser);

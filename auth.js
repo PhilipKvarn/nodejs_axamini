@@ -13,10 +13,9 @@ function isAdmin(req,res,next){
     }
 }
 
+
+
 async function login(req, res){
-    console.log("tried to login:")
-    console.log(req.body)
-    console.log("end to login:")
     value = await db.getUserByMail(req,res);
 
     if(value.length == 0){
