@@ -49,6 +49,6 @@ app.delete("/task",auth, routes.deleteTask);
 app.get("/users", routes.allUsers)
 app.get("/user", routes.userById);
 app.get("/email", routes.userByMail);
-app.post("/user",auth, routes.createUser);
-app.put("/user",auth, routes.updateUser);
-app.delete("/user",auth, routes.deleteUser);
+app.post("/user",isAdmin, routes.createUser);
+app.put("/user",isAdmin, routes.updateUser);
+app.delete("/user",isAdmin, routes.deleteUser);
