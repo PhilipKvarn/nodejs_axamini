@@ -96,6 +96,7 @@ async function insertTask(req,res){
     const {name, next_execution_date, interval_days, execution_time, machine_id, description} = req.body
     pool.query('INSERT INTO task (name, next_execution_date, interval_days, execution_time, machine_id, description) VALUES ($1, $2, $3, $4, $5, $6)', [name, next_execution_date, interval_days, execution_time, machine_id,description], (error, results)=>{
         if(error){
+            console.log(error)
             return error
         }
         return "OK"
