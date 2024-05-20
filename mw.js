@@ -24,8 +24,11 @@ async function isAdmin(req,res,next){
     
     try{
         token = await jwt.verify(authToken, 'secret');
+        let tempmail = req.body.email
         req.body.email = token.email
         let val = await db.getUserByMail(req,res);
+
+        req.body.email = tempmail
         if(val[0].role != "admin"){
             throw error
         }
