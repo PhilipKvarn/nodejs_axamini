@@ -29,22 +29,30 @@ async function allMachines(req,res){
 
 async function machineById(req,res){
     value = await db.getMachineById(req,res);
+    if(value.length == 0){
+        return res.status(400).send("Couldn't get Machine: " + value);
+    }
     return res.send(value);
 }
 
 async function createMachine(req,res){
-    let response = await db.insertMachine(req,res);
-    res.send(response);
+    let value = await db.insertMachine(req,res);
+    /* console.log("value: " + value)
+    console.log(value)
+    if(value.length == 0){
+        return res.status(400).send("Couldn't create machine");
+    } */
+    return res.send(value);
 }
 
 async function deleteMachine(req,res){
-    let response = await db.deleteMachine(req,res);
-    res.send(response);
+    let value = await db.deleteMachine(req,res);
+    res.send(value);
 }
 
 async function updateMachine(req,res){
-    let response = await db.updateMachine(req,res);
-    res.send(response);
+    let value = await db.updateMachine(req,res);
+    res.send(value);
 }
 
 // Task Routes
@@ -60,18 +68,18 @@ async function taskById(req,res){
 }
 
 async function createTask(req,res){
-    let response = await db.insertTask(req,res);
-    res.send(response);
+    let value = await db.insertTask(req,res);
+    res.send(value);
 }
 
 async function deleteTask(req,res){
-    let response = await db.deleteTask(req,res);
-    res.send(response);
+    let value = await db.deleteTask(req,res);
+    res.send(value);
 }
 
 async function updateTask(req,res){
-    let response = await db.updateTask(req,res);
-    res.send(response);
+    let value = await db.updateTask(req,res);
+    res.send(value);
 }
 
 // User Routes
@@ -86,18 +94,18 @@ async function userByMail(req,res){
 }
 
 async function createUser(req,res){
-    let response = await db.createUser(req,res);
-    res.send(response);
+    let value = await db.createUser(req,res);
+    res.send(value);
 }
 
 async function deleteUser(req,res){
-    let response = await db.deleteUser(req,res);
-    res.send(response);
+    let value = await db.deleteUser(req,res);
+    res.send(value);
 }
 
 async function updateUser(req,res){
-    let response = await db.updateUser(req,res);
-    res.send(response);
+    let value = await db.updateUser(req,res);
+    res.send(value);
 }
 
 
@@ -106,16 +114,16 @@ async function allSuggestions(req,res){
     return res.send(value);
 }
 async function createSuggestion(req,res){
-    let response = await db.createSuggestion(req,res);
-    res.send(response);
+    let value = await db.createSuggestion(req,res);
+    res.send(value);
 }
 async function updateSuggestion(req,res){
-    let response = await db.updateSuggestion(req,res);
-    res.send(response);
+    let value = await db.updateSuggestion(req,res);
+    res.send(value);
 }
 async function deleteSuggestion(req,res){
-    let response = await db.deleteSuggestion(req,res);
-    res.send(response);
+    let value = await db.deleteSuggestion(req,res);
+    res.send(value);
 }
 
 

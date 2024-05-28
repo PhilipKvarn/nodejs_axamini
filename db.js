@@ -37,20 +37,12 @@ const pool = new Pool({
         //const {name, status, urgency} = request.body
         console.log("INSERT MACHINE")
         const {name, status, urgency, mechanic_id} = req.body
-        console.log(req.body)
-        pool.query('INSERT INTO machines (name, status, urgency, mechanic_id) VALUES ($1, $2, $3, $4)', [name, status, urgency, mechanic_id], (error, results)=>{
-            if(error){
-                console.log(error)
-                return error
-            }
-            return "OK"
-        })
+        const result = await pool.query('INSERT INTO machines (name, status, urgency, mechanic_id) VALUES ($1, $2, $3, $4) RETURNING *', [name, status, urgency, mechanic_id]);
+        
     }
     
     async function updateMachine(req,res){
-        //const {name, status, urgency} = request.body
         console.log("UPDATE MACHINE")
-        console.log(req.body)
         const id = req.body.id;
         const {name, status, urgency, mechanic_id} = req.body
         pool.query('UPDATE machines SET name = $1, status = $2, urgency = $3, mechanic_id = $4 WHERE id = $5', [name, status, urgency, mechanic_id, id], (error, results)=>{
