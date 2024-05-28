@@ -130,8 +130,8 @@ async function insertTask(req,res){
 
     try {
         console.log("INSERT TASK")
-        const {name, next_execution_date, interval_days, execution_time, machine_id, description} = req.body
-        const result = await pool.query('INSERT INTO task (name, next_execution_date, interval_days, execution_time, machine_id, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [name, next_execution_date, interval_days, execution_time, machine_id,description]);
+        const {name, next_execution_date, interval_days, execution_time, machine_id, description, completed} = req.body
+        const result = await pool.query('INSERT INTO task (name, next_execution_date, interval_days, execution_time, machine_id, description) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [name, next_execution_date, interval_days, execution_time, machine_id,description,completed]);
         console.log(result)
 
         if (result.rows.length === 0) {
@@ -165,8 +165,8 @@ async function updateTask(req,res){
     try {
         console.log("UPDATE TASK")
         const id = req.body.id;
-        const {name, next_execution_date, interval_days, execution_time, machine_id, description} = req.body
-        const result = await pool.query('UPDATE task SET name = $1, next_execution_date = $2, interval_days=$3, execution_time = $4, machine_id=$5, description=$6 WHERE id = $7 RETURNING *', [name, next_execution_date, interval_days, execution_time, machine_id,description, id]);
+        const {name, next_execution_date, interval_days, execution_time, machine_id, description, completed} = req.body
+        const result = await pool.query('UPDATE task SET name = $1, next_execution_date = $2, interval_days=$3, execution_time = $4, machine_id=$5, description=$6, completed = $7 WHERE id = $8 RETURNING *', [name, next_execution_date, interval_days, execution_time, machine_id,description,completed, id]);
         
         if (result.rows.length === 0) {
             throw new Error(`TASK with ID ${id} not updated`);
