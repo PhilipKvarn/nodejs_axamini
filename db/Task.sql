@@ -7,3 +7,6 @@ CREATE TABLE Task (
     machine_id INT,
     description TEXT
 );
+
+ALTER TABLE Task
+ADD COLUMN completed BOOLEAN DEFAULT false;
