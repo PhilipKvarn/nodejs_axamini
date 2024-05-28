@@ -35,33 +35,65 @@ const pool = new Pool({
     
     async function insertMachine(req,res){
         //const {name, status, urgency} = request.body
-        console.log("INSERT MACHINE")
-        const {name, status, urgency, mechanic_id} = req.body
-        const result = await pool.query('INSERT INTO machines (name, status, urgency, mechanic_id) VALUES ($1, $2, $3, $4) RETURNING *', [name, status, urgency, mechanic_id]);
-        
+        try {
+            console.log("INSERT MACHINE")
+            const {name, status, urgency, mechanic_id} = req.body
+            const result = await pool.query('INSERT INTO machines (name, status, urgency, mechanic_id) VALUES ($1, $2, $3, $4) RETURNING *',[name, status, urgency, mechanic_id]);
+            
+            if (result.rows.length === 0) {
+                throw new Error(`Machine not inserted`);
+            }
+
+            const insertedMachine = result.rows[0];
+            console.log('Inserted machine:', insertedMachine);
+            return insertedMachine;
+          } catch (err) {
+            console.error(err);
+            res.status(400)
+            return err;
+          }
     }
     
     async function updateMachine(req,res){
-        console.log("UPDATE MACHINE")
-        const id = req.body.id;
-        const {name, status, urgency, mechanic_id} = req.body
-        pool.query('UPDATE machines SET name = $1, status = $2, urgency = $3, mechanic_id = $4 WHERE id = $5', [name, status, urgency, mechanic_id, id], (error, results)=>{
-            if(error){
-                return error
+        try {
+            console.log("UPDATE MACHINE")
+            const id = req.body.id;
+            const {name, status, urgency, mechanic_id} = req.body
+            const result = await pool.query('UPDATE machines SET name = $1, status = $2, urgency = $3, mechanic_id = $4 WHERE id = $5 RETURNING *',[name, status, urgency, mechanic_id, id]);
+            
+            if (result.rows.length === 0) {
+                throw new Error(`Machine with ID ${id} not updated`);
             }
-            return "OK"
-        })
+
+            const updatedMachine = result.rows[0];
+            console.log('Updated machine:', updatedMachine);
+        
+            return updatedMachine;
+          } catch (err) {
+            console.error('Error updating machine:', err);
+            res.status(400)
+            return err;
+          }
     }
     
     async function deleteMachine(req,res){
-        console.log("DELETE MACHINE")
-        const id = req.body.id
-        pool.query('DELETE FROM machines WHERE id = $1', [id], (error,results)=>{
-            if(error){
-                return error;
+        try {
+            console.log("DELETE MACHINE")
+            const id = req.body.id
+            const result = await pool.query('DELETE FROM machines WHERE id = $1 RETURNING *', [id]);
+
+            if (result.rows.length === 0) {
+                throw new Error(`Machine with ID ${id} not found`);
             }
-            return "OK";
-        })
+
+            const deletedMachine = result.rows[0];
+            console.log(deletedMachine);
+            return deletedMachine;
+          } catch (err) {
+            console.error(err);
+            res.status(400)
+            return err;
+          }
     }
 
 //TASKS

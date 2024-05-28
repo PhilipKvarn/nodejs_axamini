@@ -37,11 +37,6 @@ async function machineById(req,res){
 
 async function createMachine(req,res){
     let value = await db.insertMachine(req,res);
-    /* console.log("value: " + value)
-    console.log(value)
-    if(value.length == 0){
-        return res.status(400).send("Couldn't create machine");
-    } */
     return res.send(value);
 }
 
