@@ -131,7 +131,7 @@ async function insertTask(req,res){
     try {
         console.log("INSERT TASK")
         const {name, next_execution_date, interval_days, execution_time, machine_id, description, completed} = req.body
-        const result = await pool.query('INSERT INTO task (name, next_execution_date, interval_days, execution_time, machine_id, description) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [name, next_execution_date, interval_days, execution_time, machine_id,description,completed]);
+        const result = await pool.query('INSERT INTO task (name, next_execution_date, interval_days, execution_time, machine_id, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [name, next_execution_date, interval_days, execution_time, machine_id,description]);
         console.log(result)
 
         if (result.rows.length === 0) {
